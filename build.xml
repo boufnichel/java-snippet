@@ -1,11 +1,18 @@
 <?xml version="1.0"?>
-<project name="Devops Lab 1" default="build" basedir="./"/>
+<project name="Devops Lab 1" default="build" basedir="./">
 
 	<property file="${basedir}/project.properties"/>
+	<property name="classpath" value="${basedir}/build/classes"/>
+	
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="${basedir}/tools/ant-contrib-1.0b3.jar"/>
+        </classpath>
+	</taskdef>
 	
     <target name="build">
 		<echo message="====================================================================="/>
-        <echo message="Welcome to devops lab 1"/>
+        <echo message="Welcome to devops lab 1 ${env}"/>
         <echo message=" "/>
         <echo message="====================================================================="/>
         <echo message=" "/>
@@ -15,6 +22,12 @@
             <then>
                 <!-- Build a dev environment -->
                 <echo message="Building a Development Environment..."/>
+				<java classname="org.devops.build.test.BuildTest1">
+					<arg value="-h"/>
+					<classpath>
+						<pathelement path="${classpath}"/>
+					</classpath>
+				</java>
                
             </then>
             <elseif>
