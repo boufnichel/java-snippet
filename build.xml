@@ -1,8 +1,14 @@
 <?xml version="1.0"?>
-<project name="Devops Lab 1" default="build" basedir="./">
+<project name="DevopsLab1" default="main" basedir="./">
 
 	<property file="${basedir}/project.properties"/>
 	<property name="classpath" value="${basedir}/build/classes"/>
+	
+    <property name="src.dir"     value="src"/>
+	<property name="build.dir"   value="build"/>
+	<property name="classes.dir" value="${build.dir}/classes"/>
+	<property name="jar.dir"     value="${build.dir}/jar"/>
+	<property name="main-class"  value="org.devops.build.test.BuildTest1"/>
 	
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
         <classpath>
@@ -10,41 +16,32 @@
         </classpath>
 	</taskdef>
 	
-    <target name="build">
-		<echo message="====================================================================="/>
-        <echo message="Welcome to devops lab 1 ${env}"/>
-        <echo message=" "/>
-        <echo message="====================================================================="/>
-        <echo message=" "/>
-        <echo message=" "/>
-        <if>
-            <equals arg1="${env}" arg2="dev"/>
-            <then>
-                <!-- Build a dev environment -->
-                <echo message="Building a Development Environment..."/>
-				<java classname="org.devops.build.test.BuildTest1">
-					<arg value="-h"/>
-					<classpath>
-						<pathelement path="${classpath}"/>
-					</classpath>
-				</java>
-               
-            </then>
-            <elseif>
-                <equals arg1="${env}" arg2="test"/>
-                <then>
-                    <!-- Build a test environment -->
-                    <echo message="Building a Test Environment..."/>
-                    
-                </then>
-            </elseif>
-            <else>
-                <!-- Build a production environment -->
-                <echo message="Building a Production Environment..."/>
-                
-            </else>
-        </if>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
     </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
+    </target>
+
+    <target name="clean-build" depends="clean,jar"/>
+
+    <target name="main" depends="clean,run"/>
 
 </project>
 
