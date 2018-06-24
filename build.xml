@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE project>
+<project name="Lab 1" default="build" basedir="./>
+
+	<property file="build/config/project.properties"/>
+	
+    <target name="build">
+		<echo message="====================================================================="/>
+        <echo message="Welcome to devops lab 1"/>
+        <echo message=" "/>
+        <echo message="====================================================================="/>
+        <echo message=" "/>
+        <echo message=" "/>
+        <if>
+            <equals arg1="${env}" arg2="dev"/>
+            <then>
+                <!-- Build a dev environment -->
+                <echo message="Building a Development Environment..."/>
+               
+            </then>
+            <elseif>
+                <equals arg1="${env}" arg2="test"/>
+                <then>
+                    <!-- Build a test environment -->
+                    <echo message="Building a Test Environment..."/>
+                    
+                </then>
+            </elseif>
+            <else>
+                <!-- Build a production environment -->
+                <echo message="Building a Production Environment..."/>
+                
+            </else>
+        </if>
+    </target>
+
+</project>
+
