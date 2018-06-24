@@ -2,7 +2,7 @@
 <!DOCTYPE project>
 <project name="Lab 1" default="build" basedir="./"/>
 
-	<property file="build/config/project.properties"/>
+	<property file="${basedir}/project.properties"/>
 	
     <target name="build">
 		<echo message="====================================================================="/>
